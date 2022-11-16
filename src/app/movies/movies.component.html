@@ -1,0 +1,22 @@
+<div class="loader vh-100" *ngIf="isLoading">
+    <div class="container pt-5 mt-5 d-flex justify-content-center align-content-center">
+    <div class="row mt-5 justify-content-center align-items-center h-100">
+        <div class="lds-facebook"><div></div><div></div><div></div></div>
+
+    </div>
+</div>
+</div>
+
+<div class="container pt-5 mt-5">
+    <div class="row mt-5" *ngIf="!isLoading">
+        <div class="col-md-4 text-center" *ngFor="let movie of allMovies">
+            <div class="item">
+                <div *ngIf="loadingIimage" class="lds-facebook"><div></div><div></div><div></div></div>
+                <img [hidden]="loadingIimage" (load)="onLoad()" src="https://image.tmdb.org/t/p/w500{{movie.backdrop_path}}" class="w-100 rounded" alt="" >
+                <h3>{{movie.title.slice(0,20)}}...</h3>
+                <p>{{movie.overview.slice(0,100)}}...</p>
+
+            </div>
+        </div>
+    </div>
+</div>
