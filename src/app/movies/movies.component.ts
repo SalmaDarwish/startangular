@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MoviesService } from '../movies.service';
 import {of} from 'rxjs';
 import { NgOptimizedImage } from '@angular/common';
@@ -11,10 +11,11 @@ import { NgOptimizedImage } from '@angular/common';
   
 
 })
-export class MoviesComponent implements OnInit {
+export class MoviesComponent implements OnInit , OnDestroy{
   allMovies:any=[]
   isLoading:Boolean=true;
   loadingIimage: boolean = true;
+  sub:any;
 
   constructor(private _moviesService:MoviesService) { 
 
@@ -24,7 +25,7 @@ export class MoviesComponent implements OnInit {
     this.getAllData()
   }
   getAllData(){
-    this._moviesService.getMovies().subscribe(
+    this.sub = this._moviesService.getMovies().subscribe(
       (res)=>{
         this.allMovies=res.results;
         console.log(this.allMovies);
@@ -41,5 +42,8 @@ export class MoviesComponent implements OnInit {
   
 onLoad() {
     this.loadingIimage = false;
+}
+ngOnDestroy(){
+    this.sub.unsubscribe()
 }
 }
